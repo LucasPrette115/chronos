@@ -49,7 +49,11 @@ export function MainForm() {
         activeTask: newTask,
         currentCycle: nextCycle,
         secondsRemaining: secondsRemaining,
-        formattedSecondsRemaining: '00:00',
+        formattedSecondsRemaining: `${Math.floor(secondsRemaining / 60)
+          .toString()
+          .padStart(2, '0')}:${(secondsRemaining % 60)
+          .toString()
+          .padStart(2, '0')}`,
         tasks: [...prev.tasks, newTask],
       };
     });
