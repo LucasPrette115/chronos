@@ -18,14 +18,14 @@
   border-radius: 50%;
 }
 
-.workTime {
+.focusDuration {
   background: var(--warning);
 }
 
-.shortBreakTime {
+.shortBreakDuration {
   background: var(--primary);
 }
 
-.longBreakTime {
+.longBreakDuration {
   background: var(--info);
 }

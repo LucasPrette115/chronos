@@ -68,7 +68,16 @@ export function MainForm() {
           placeholder='Type something'
           ref={taskNameInput}
         ></DefaultInput>
+      </div>
+
+      <div className='formRow'>
+        <p>Próximo ciclo é de {state.config[nextCycleType]}min</p>
+      </div>
+
+      <div className='formRow'>
         <Cycles />
+      </div>
+      <div className='formRow'>
         <DefaultButton icon={<PlayCircleIcon />} />
       </div>
     </form>
