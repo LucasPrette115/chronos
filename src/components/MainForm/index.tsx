@@ -5,14 +5,14 @@ import { DefaultInput } from '../DefaultInput';
 import { useRef } from 'react';
 import type { TaskModel } from '../../models/TaskModel';
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
+import { TaskActionTypes } from '../../contexts/TaskContext/taskActions';
 
 export function MainForm() {
-  const { state, setState } = useTaskContext();
+  const { state, dispatch } = useTaskContext();
   const taskNameInput = useRef<HTMLInputElement>(null);
 
   const nextCycle = (state.currentCycle + 1) % 9 || 1;
   const nextCycleType = determineNextCycleType(nextCycle);
-  console.log(nextCycleType);
 
   function determineNextCycleType(currentCycle: number): TaskModel['type'] {
     if (currentCycle % 8 === 0) return 'longBreakDuration';
@@ -42,31 +42,13 @@ export function MainForm() {
       duration: state.config[nextCycleType],
       type: nextCycleType,
     };
-    const secondsRemaining = newTask.duration * 60;
-    setState(prev => {
-      return {
-        ...prev,
-        activeTask: newTask,
-        currentCycle: nextCycle,
-        secondsRemaining: secondsRemaining,
-        formattedSecondsRemaining: `${Math.floor(secondsRemaining / 60)
-          .toString()
-          .padStart(2, '0')}:${(secondsRemaining % 60)
-          .toString()
-          .padStart(2, '0')}`,
-        tasks: [...prev.tasks, newTask],
-      };
-    });
+
+    dispatch({ type: TaskActionTypes.START_TASK, payload: newTask });
   }
 
   function handleStopTask() {
-    setState(prev => {
-      return {
-        ...prev,
-        activeTask: null,
-        secondsRemaining: 0,
-        formattedSecondsRemaining: '00:00',
-      };
+    dispatch({
+      type: TaskActionTypes.INTERRUPT_TASK,
     });
   }
 
