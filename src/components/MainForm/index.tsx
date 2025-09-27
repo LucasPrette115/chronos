@@ -65,7 +65,20 @@ export function MainForm() {
       </div>
 
       <div className='formRow'>
-        <p>Próximo ciclo é de {state.config[nextCycleType]}min</p>
+        {!state.activeTask ? (
+          <p>
+            <b>Próximo ciclo é de {state.config[nextCycleType]}min</b>
+          </p>
+        ) : (
+          <p>
+            <b>
+              {state.activeTask.type === 'focusDuration'
+                ? 'Foque '
+                : 'Descanse '}
+              por {state.activeTask.duration}min
+            </b>
+          </p>
+        )}
       </div>
 
       <div className='formRow'>
