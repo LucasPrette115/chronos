@@ -37,6 +37,31 @@ export function taskReducer(
         }),
       };
     }
+    case TaskActionTypes.COUNT_DOWN: {
+      return {
+        ...state,
+        secondsRemaining: action.payload.secondsRemaining,
+        formattedSecondsRemaining: `${Math.floor(
+          action.payload.secondsRemaining / 60,
+        )
+          .toString()
+          .padStart(2, '0')}:${(action.payload.secondsRemaining % 60)
+          .toString()
+          .padStart(2, '0')}`,
+      };
+    }
+    case TaskActionTypes.COMPLETE_TASK: {
+      return {
+        ...state,
+        activeTask: null,
+        secondsRemaining: 0,
+        formattedSecondsRemaining: '00:00',
+        tasks: state.tasks.map(task => {
+          if (task.id === state.activeTask?.id) task.completedDate = Date.now();
+          return task;
+        }),
+      };
+    }
   }
   return state;
 }
