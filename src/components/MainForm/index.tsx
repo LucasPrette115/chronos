@@ -6,6 +6,7 @@ import { useRef } from 'react';
 import type { TaskModel } from '../../models/TaskModel';
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 import { TaskActionTypes } from '../../contexts/TaskContext/taskActions';
+import { toastAdapter } from '../../adapters/toastAdapter';
 
 export function MainForm() {
   const { state, dispatch } = useTaskContext();
@@ -23,13 +24,13 @@ export function MainForm() {
 
   function handleStartNewTask(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
+    toastAdapter.dismiss();
     if (!taskNameInput.current) return;
 
     const taskName = taskNameInput.current.value.trim();
 
     if (!taskName) {
-      alert('Digite o nome da tarefa!');
+      toastAdapter.warning('Digite o nome da tarefa!');
       return;
     }
 
@@ -44,6 +45,8 @@ export function MainForm() {
     };
 
     dispatch({ type: TaskActionTypes.START_TASK, payload: newTask });
+
+    toastAdapter.success('Tarefa iniciada');
   }
 
   function handleStopTask() {
